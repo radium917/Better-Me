@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+/* 全局密度：略微收紧 rem 基准，让字体/间距/圆角整体更接近原生 App 的信息密度
+   （text-[..px] 等显式 px 值不受影响，如页面大标题） */
+html {
+  font-size: 15px;
+}
+
+body {
+  margin: 0;
+  /* 高级浅色纸底：暖象牙 + 极轻的暖调渐晕 */
+  background-color: #e9e4d9;
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(76, 90, 62, 0.05) 0, transparent 45%),
+    radial-gradient(circle at 100% 100%, rgba(176, 129, 63, 0.04) 0, transparent 45%);
+  color: #26251f;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: 0.01em;
+}
+
+/* Hide scrollbars but keep scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@layer components {
+  /* 卡片：纯净纸面 + 近乎无形的描边 + 极轻投影，安静地浮在纸底上 */
+  .card {
+    @apply bg-ink-850 border border-ink-700/45 text-paper rounded-[1.4rem];
+    box-shadow: 0 1px 2px rgba(38, 37, 31, 0.02), 0 12px 32px -22px rgba(38, 37, 31, 0.18);
+  }
+  /* 可点击卡片：轻微下沉 + 描边微微收紧 */
+  .card-press {
+    @apply transition-all duration-300 ease-out active:scale-[0.99] active:shadow-soft;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 px-3 py-1 text-xs font-medium border border-ink-700/50 rounded-full whitespace-nowrap transition-colors duration-200;
+  }
+  .btn-primary {
+    @apply bg-accent text-white font-medium px-4 py-3 rounded-2xl active:scale-[0.98] transition-transform duration-200;
+    box-shadow: 0 1px 2px rgba(38, 37, 31, 0.06), 0 14px 30px -16px rgba(76, 90, 62, 0.6);
+  }
+  .btn-ghost {
+    @apply bg-ink-850 text-paper border border-ink-700/60 px-4 py-3 rounded-2xl active:scale-[0.98] transition-all duration-200 active:border-accent/40;
+  }
+  .input {
+    @apply w-full bg-ink-900 border border-ink-700/60 px-4 py-3 rounded-2xl text-paper placeholder:text-faint/80 focus:outline-none focus:border-accent/60 focus:ring-2 focus:ring-accent/15 transition-all duration-200;
+  }
+  /* 小节眉标：字距舒展的弱化标签 */
+  .label {
+    @apply text-[10.5px] tracking-[0.16em] text-faint font-semibold uppercase;
+  }
+  /* 衬线点缀：用于品牌与标题（编辑部质感） */
+  .serif {
+    font-family: Georgia, 'Times New Roman', 'Songti SC', STSong, serif;
+    letter-spacing: -0.01em;
+  }
+  /* 分区标题：从容字号 + 微收字距 */
+  .section-title {
+    @apply text-[15px] font-semibold text-paper tracking-tightish;
+  }
+  /* 页眉：统一的半透明毛玻璃顶栏 */
+  .app-header {
+    @apply sticky top-0 z-20 bg-ink-900/80 backdrop-blur-xl border-b border-ink-700/40;
+  }
+  /* 页面大标题（同行 / 我的） */
+  .page-title {
+    @apply text-[26px] font-semibold text-paper serif leading-none tracking-tightish;
+  }
+}
+
+/* 进入动画：内容渐入上浮，营造从容质感 */
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-rise {
+  animation: riseIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* 淡入：用于详情/次级内容 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.animate-fade {
+  animation: fadeIn 0.4s ease-out both;
+}
