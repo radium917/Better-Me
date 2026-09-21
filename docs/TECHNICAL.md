@@ -46,7 +46,14 @@ src/
 `App.tsx` 中包含两级守卫：
 
 - `RequireAuth`：要求 `authed === true`，用于目标选择和目标设置。
-- `RequireOnboarded`：同时要求登录并完成引导，用于所有主功能。
+- `RequireOnboarded`：同时要求登录并完成引导，用于发布和个人功能。
+
+公开路由：
+
+- `/` 自动跳转到 `/community`。
+- `/community`、`/community/:templateId` 和 `/checkin/:id` 允许访客浏览。
+
+个人目标、发布、通知、资料和设置仍由守卫保护。公开页面中的点赞、评论、举报和拉黑等写操作会先检查登录状态。
 
 这两个状态不能互相替代：
 
@@ -213,4 +220,3 @@ Vercel 通过 `vercel.json` 将所有路径 rewrite 到 `index.html`，保证 Re
 - 增加内容审核、风控和举报处理后台。
 - 增加单元测试、路由测试和端到端测试。
 - 增加错误监控、性能监控和可访问性自动检查。
-

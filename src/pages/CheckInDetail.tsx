@@ -11,6 +11,7 @@ export function CheckInDetail() {
   const { id } = useParams()
   const nav = useNavigate()
   const checkIn = useStore((s) => s.checkIns.find((c) => c.id === id))
+  const authed = useStore((s) => s.authed)
   const goals = useStore((s) => s.goals)
   const comments = useStore((s) => s.comments.filter((c) => c.checkInId === id))
   const addComment = useStore((s) => s.addComment)
@@ -68,7 +69,7 @@ export function CheckInDetail() {
 
           <div className="mt-3.5 pt-3 border-t border-ink-700/40 flex items-center gap-6 text-muted">
             <button
-              onClick={() => toggleLike(checkIn.id)}
+              onClick={() => (authed ? toggleLike(checkIn.id) : nav('/auth'))}
               className={`flex items-center gap-1.5 text-sm transition-colors ${liked ? 'text-danger' : ''}`}
             >
               <IcHeart size={19} filled={liked} />
@@ -97,7 +98,7 @@ export function CheckInDetail() {
                       <div className="flex items-center gap-2">
                         <span className="text-sm text-paper">{author.nickname}</span>
                         <span className="text-[11px] text-faint">{relTime(c.createdAt)}</span>
-                        {c.userId === 'me' && (
+                        {authed && c.userId === 'me' && (
                           <button onClick={() => deleteComment(c.id)} className="text-[11px] text-danger ml-auto">
                             删除
                           </button>
@@ -112,31 +113,39 @@ export function CheckInDetail() {
         </div>
       </div>
 
-      <div className="border-t border-ink-700/40 p-3 flex gap-2 bg-ink-850/90 backdrop-blur-xl">
-        <input
-          className="input"
-          placeholder="写下你的鼓励…"
-          value={text}
-          maxLength={120}
-          onChange={(e) => setText(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && text.trim()) {
+      {authed ? (
+        <div className="border-t border-ink-700/40 p-3 flex gap-2 bg-ink-850/90 backdrop-blur-xl">
+          <input
+            className="input"
+            placeholder="写下你的鼓励…"
+            value={text}
+            maxLength={120}
+            onChange={(e) => setText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && text.trim()) {
+                addComment(checkIn.id, text)
+                setText('')
+              }
+            }}
+          />
+          <button
+            className="btn-primary px-5 disabled:opacity-40"
+            disabled={!text.trim()}
+            onClick={() => {
               addComment(checkIn.id, text)
               setText('')
-            }
-          }}
-        />
-        <button
-          className="btn-primary px-5 disabled:opacity-40"
-          disabled={!text.trim()}
-          onClick={() => {
-            addComment(checkIn.id, text)
-            setText('')
-          }}
-        >
-          发送
-        </button>
-      </div>
+            }}
+          >
+            发送
+          </button>
+        </div>
+      ) : (
+        <div className="border-t border-ink-700/40 p-3 bg-ink-850/90 backdrop-blur-xl">
+          <button className="btn-primary w-full" onClick={() => nav('/auth')}>
+            注册后参与讨论
+          </button>
+        </div>
+      )}
     </div>
   )
 }

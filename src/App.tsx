@@ -1,7 +1,6 @@
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { useStore } from './lib/store'
 import { BottomNav } from './components/BottomNav'
-import { Splash } from './pages/Splash'
 import { Auth } from './pages/Auth'
 import { OnboardingSelect } from './pages/OnboardingSelect'
 import { GoalSetup } from './pages/GoalSetup'
@@ -57,14 +56,14 @@ export default function App() {
   return (
     <Shell>
       <Routes>
-        <Route path="/" element={<Splash />} />
+        <Route path="/" element={<Navigate to="/community" replace />} />
         <Route path="/auth" element={<AuthEntry />} />
         <Route path="/onboarding" element={<RequireAuth><OnboardingSelect /></RequireAuth>} />
         <Route path="/goal-setup/:templateId" element={<RequireAuth><GoalSetup /></RequireAuth>} />
 
-        <Route path="/community" element={<RequireOnboarded><Community /></RequireOnboarded>} />
-        <Route path="/community/:templateId" element={<RequireOnboarded><CommunityGoal /></RequireOnboarded>} />
-        <Route path="/checkin/:id" element={<RequireOnboarded><CheckInDetail /></RequireOnboarded>} />
+        <Route path="/community" element={<Community />} />
+        <Route path="/community/:templateId" element={<CommunityGoal />} />
+        <Route path="/checkin/:id" element={<CheckInDetail />} />
         <Route path="/publish" element={<RequireOnboarded><Publish /></RequireOnboarded>} />
 
         <Route path="/me" element={<RequireOnboarded><Me /></RequireOnboarded>} />

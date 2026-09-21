@@ -16,7 +16,7 @@ export function Auth() {
 
   return (
     <div>
-      <TopBar hideBack title="注册 / 登录" />
+      <TopBar title="注册 / 登录" onBack={() => nav('/community', { replace: true })} />
       <div className="p-5 space-y-5">
         <p className="text-muted text-sm leading-relaxed">
           用手机号创建你的坚持档案。这里的内容独立于你已有的社交账号，无需重新塑造人设。

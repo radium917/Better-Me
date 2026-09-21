@@ -23,6 +23,7 @@ export function CheckInCard({ checkIn, showActions = true }: { checkIn: CheckIn;
   const goals = useStore((s) => s.goals)
   const checkIns = useStore((s) => s.checkIns)
   const comments = useStore((s) => s.comments)
+  const authed = useStore((s) => s.authed)
   const toggleLike = useStore((s) => s.toggleLike)
   const deleteCheckIn = useStore((s) => s.deleteCheckIn)
   const blockUser = useStore((s) => s.blockUser)
@@ -36,6 +37,13 @@ export function CheckInCard({ checkIn, showActions = true }: { checkIn: CheckIn;
   const mine = checkIn.userId === 'me'
   // 已坚持天数：该目标去重后的有效打卡天数
   const persistedDays = goal ? effectiveDates(goal.id, checkIns).size : 0
+  const requireAuth = (action: () => void) => {
+    if (!authed) {
+      nav('/auth')
+      return
+    }
+    action()
+  }
 
   return (
     <article className="card p-3">
@@ -61,7 +69,10 @@ export function CheckInCard({ checkIn, showActions = true }: { checkIn: CheckIn;
         </div>
         {showActions && (
           <div className="relative">
-            <button onClick={() => setMenu((v) => !v)} className="text-faint w-6 h-6 flex items-center justify-center rounded-full active:bg-ink-800 transition-colors">
+            <button
+              onClick={() => requireAuth(() => setMenu((v) => !v))}
+              className="text-faint w-6 h-6 flex items-center justify-center rounded-full active:bg-ink-800 transition-colors"
+            >
               <IcDots size={16} />
             </button>
             {menu && (
@@ -127,7 +138,7 @@ export function CheckInCard({ checkIn, showActions = true }: { checkIn: CheckIn;
       {showActions && (
         <div className="mt-2.5 pt-2.5 border-t border-ink-700/40 flex items-center gap-5 text-muted">
           <button
-            onClick={() => toggleLike(checkIn.id)}
+            onClick={() => requireAuth(() => toggleLike(checkIn.id))}
             className={`flex items-center gap-1.5 text-[13px] transition-colors ${liked ? 'text-danger' : 'active:text-danger'}`}
           >
             <IcHeart size={16} filled={liked} />
