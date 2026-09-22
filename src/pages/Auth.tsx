@@ -1,22 +1,24 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useStore } from '../lib/store'
 import { TopBar } from '../components/TopBar'
 
 export function Auth() {
   const nav = useNavigate()
+  const location = useLocation()
   const login = useStore((s) => s.login)
   const onboarded = useStore((s) => s.onboarded)
   const [phone, setPhone] = useState('')
   const [code, setCode] = useState('')
   const [nickname, setNickname] = useState('')
   const [sent, setSent] = useState(false)
+  const backTo = (location.state as { from?: string } | null)?.from || '/community'
 
   const canSubmit = sent && /^1\d{10}$/.test(phone) && code.length >= 4 && nickname.trim()
 
   return (
     <div>
-      <TopBar title="注册 / 登录" onBack={() => nav('/community', { replace: true })} />
+      <TopBar title="注册 / 登录" onBack={() => nav(backTo, { replace: true })} />
       <div className="p-5 space-y-5">
         <p className="text-muted text-sm leading-relaxed">
           用手机号创建你的坚持档案。这里的内容独立于你已有的社交账号，无需重新塑造人设。
@@ -79,7 +81,7 @@ export function Auth() {
           disabled={!canSubmit}
           onClick={() => {
             login(phone, nickname.trim())
-            nav(onboarded ? '/community' : '/onboarding', { replace: true })
+            nav(onboarded ? backTo : '/onboarding', { replace: true })
           }}
         >
           创建档案并继续

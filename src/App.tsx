@@ -66,7 +66,7 @@ export default function App() {
         <Route path="/checkin/:id" element={<CheckInDetail />} />
         <Route path="/publish" element={<RequireOnboarded><Publish /></RequireOnboarded>} />
 
-        <Route path="/me" element={<RequireOnboarded><Me /></RequireOnboarded>} />
+        <Route path="/me" element={<Me />} />
         <Route path="/goal/:id" element={<RequireOnboarded><GoalDetail /></RequireOnboarded>} />
         <Route path="/points" element={<RequireOnboarded><PointsBadges /></RequireOnboarded>} />
         <Route path="/notifications" element={<RequireOnboarded><Notifications /></RequireOnboarded>} />

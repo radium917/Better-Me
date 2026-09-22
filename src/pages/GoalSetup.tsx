@@ -56,9 +56,12 @@ export function GoalSetup() {
       setError(res.error)
       return
     }
-    // 首次注册需完成引导
-    if (!onboarded) finishOnboarding()
-    // 新建习惯后直接进入该目标的打卡落地页（返回时回到「我的」，避免困在此页）
+    if (!onboarded) {
+      finishOnboarding()
+      nav('/me', { replace: true })
+      return
+    }
+    // 已有档案时，新建目标后仍可直接完成第一次打卡。
     nav(`/publish?goal=${res}&from=new`, { replace: true })
   }
 
@@ -136,7 +139,7 @@ export function GoalSetup() {
         {error && <div className="text-sm text-danger bg-danger/10 rounded-lg px-3 py-2">{error}</div>}
 
         <button className="btn-primary w-full" onClick={submit}>
-          {onboarded ? '创建目标' : '创建并去打第一次卡'}
+          {onboarded ? '创建目标' : '创建并进入我的'}
         </button>
       </div>
     </div>

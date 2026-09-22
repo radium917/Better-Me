@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useStore } from '../lib/store'
 import { GoalCard } from '../components/GoalCard'
 import { Avatar } from '../components/CheckInCard'
@@ -7,6 +7,8 @@ import { ALL_BADGES } from '../lib/seed'
 
 export function Me() {
   const nav = useNavigate()
+  const authed = useStore((s) => s.authed)
+  const onboarded = useStore((s) => s.onboarded)
   const user = useStore((s) => s.user)
   const goals = useStore((s) => s.myGoals())
   const badges = useStore((s) => s.badges)
@@ -18,6 +20,39 @@ export function Me() {
   const slotLimit = unlockedExtraSlot ? 4 : 3
   const earnedIds = new Set(badges.map((b) => b.id))
   const worn = user.wornBadgeId ? ALL_BADGES.find((b) => b.id === user.wornBadgeId) : undefined
+
+  if (!authed) {
+    return (
+      <div>
+        <div className="app-header">
+          <div className="h-14 px-4 flex items-center">
+            <div className="page-title">我的</div>
+          </div>
+        </div>
+
+        <div className="px-5 pt-14 text-center">
+          <div className="mx-auto w-20 h-20 rounded-full bg-accent/10 border border-accent/15 flex items-center justify-center text-[34px]">
+            🌱
+          </div>
+          <h1 className="mt-5 text-xl font-semibold text-paper serif">建立你的坚持档案</h1>
+          <p className="mt-2.5 text-sm text-muted leading-relaxed">
+            注册后创建自己的目标，记录每一次行动与成长。
+          </p>
+          <button
+            className="btn-primary w-full mt-7"
+            onClick={() => nav('/auth', { state: { from: '/me' } })}
+          >
+            注册 / 登录
+          </button>
+          <button className="mt-3 px-4 py-2 text-sm text-muted" onClick={() => nav('/community')}>
+            先逛逛同行
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  if (!onboarded) return <Navigate to="/onboarding" replace />
 
   return (
     <div>
