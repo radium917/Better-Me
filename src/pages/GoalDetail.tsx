@@ -169,7 +169,7 @@ export function GoalDetail() {
                           disabled={!clickable}
                           onClick={() => d.checkIn && nav(`/checkin/${d.checkIn.id}`)}
                           title={d.ds}
-                          className={`aspect-square rounded-xl p-1 flex flex-col items-center justify-start overflow-hidden border text-center transition-all duration-200 ${
+                          className={`h-12 rounded-xl px-1 py-1.5 flex flex-col items-center overflow-hidden border text-center transition-all duration-200 ${
                             d.done
                               ? 'bg-accent/10 border-accent/30'
                               : d.future
@@ -179,12 +179,12 @@ export function GoalDetail() {
                         >
                           {!d.future && (
                             <>
-                              <span className={`text-[9px] leading-none ${d.done ? 'text-accent font-semibold' : 'text-faint'}`}>
+                              <span className={`h-2.5 shrink-0 text-[9px] leading-none ${d.done ? 'text-accent font-semibold' : 'text-faint'}`}>
                                 {d.isFirstOfMonth ? `${d.month}/1` : d.dayNum}
                               </span>
-                              <div className="flex-1 min-h-0 w-full flex items-center justify-center">
+                              <div className="mt-1 flex-1 min-h-0 w-full flex items-center justify-center">
                                 {mood ? (
-                                  <span className="text-base leading-none">{mood.emoji}</span>
+                                  <span className="text-[15px] leading-none">{mood.emoji}</span>
                                 ) : d.done ? (
                                   <span className="text-accent text-xs leading-none">✓</span>
                                 ) : null}
