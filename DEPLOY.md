@@ -6,6 +6,12 @@ GitHub 仓库：
 https://github.com/radium917/Better-Me.git
 ```
 
+生产地址：
+
+```text
+https://better-me-three-chi.vercel.app
+```
+
 ## GitHub
 
 远端名称为 `origin`，默认分支为 `main`。
@@ -27,11 +33,12 @@ git push origin main
 
 ## Vercel
 
-1. 在 Vercel 中导入 `radium917/Better-Me`。
-2. Framework Preset 选择 Vite。
-3. Build Command 使用 `npm run build`。
-4. Output Directory 使用 `dist`。
-5. 不需要配置环境变量。
+Vercel 项目为 `radium17/better-me`，已经连接 GitHub 仓库。推送 `main` 后会自动构建并更新生产环境。
+
+- Framework Preset：Vite
+- Build Command：`npm run build`
+- Output Directory：`dist`
+- 环境变量：无
 
 `vercel.json` 已配置 SPA rewrite：
 
@@ -55,4 +62,3 @@ npm run build
 - 用户数据保存在浏览器 localStorage。
 - mock 图片需要访问项目指定的图片生成服务。
 - 暂无后端、云存储、短信服务或服务端鉴权。
-

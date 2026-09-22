@@ -4,6 +4,10 @@ Better Me 是一个围绕个人目标、持续打卡和同目标陪伴设计的�
 
 当前版本是纯前端演示应用，使用浏览器 `localStorage` 保存状态，并内置同行者、目标和打卡 mock 数据。
 
+## 在线体验
+
+https://better-me-three-chi.vercel.app
+
 ## 当前能力
 
 - 手机号验证码注册/登录演示与完整首次引导
